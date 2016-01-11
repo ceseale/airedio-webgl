@@ -23,6 +23,7 @@ module.exports = function(config) {
       'client/bower_components/angular-resource/angular-resource.js',
       'client/bower_components/angular-sanitize/angular-sanitize.js',
       'client/bower_components/angular-ui-router/release/angular-ui-router.js',
+      'client/bower_components/crossfilter/crossfilter.js',
       'client/bower_components/d3/d3.js',
       'client/bower_components/leaflet/dist/leaflet-src.js',
       'client/bower_components/lodash/dist/lodash.compat.js',

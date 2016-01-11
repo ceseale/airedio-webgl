@@ -5,16 +5,22 @@
 class MainController {
 
   constructor($http) {
-var data = [
-  [50.10164799,14.44891924  ],
-  [50.22763919,14.09765223  ],
-  [49.98581544,14.15183071  ],
-  [50.10728931,13.71442186  ], 
-  ]
-    var leafletMap = L.map('map').setView([50.00, 14.44], 8);
+    const setData = (data) => {
+      this.data = data.data;
+      return true;
+    }
+    $http.get('api/data').then(setData).then(this.renderMap.bind(this));
+  }
+
+  log(stuff) {
+    console.log(stuff);
+  }
+
+  renderMap() {
+
+    var leafletMap = L.map('map').setView([37.784554114444994, -122.40520477294922], 5);
         L.tileLayer("http://{s}.sm.mapstack.stamen.com/(toner-background,$fff[difference],$fff[@23],$fff[hsl-saturation@20],toner-lines[destination-in])/{z}/{x}/{y}.png")
             .addTo(leafletMap);
-
 
         var glLayer = L.canvasOverlay()
                        .drawing(drawingOnCanvas)
@@ -23,7 +29,6 @@ var data = [
 
         glLayer.canvas.width = canvas.clientWidth;
         glLayer.canvas.height = canvas.clientHeight;
-
 
         var gl = canvas.getContext('experimental-webgl', { antialias: true });
 
@@ -68,13 +73,13 @@ var data = [
         // -- data
         var verts = [];
 
-        data.map(function (d, i) {
-             var pixel = LatLongToPixelXY(d[0], d[1]);
+        this.data.map(function (d, i) {
+             var pixel = LatLongToPixelXY(d.lat, d.lng);
             //-- 2 coord, 3 rgb colors interleaved buffer
             verts.push(pixel.x, pixel.y, Math.random(), Math.random(), Math.random());
         });
 
-        var numPoints = data.length ;
+        var numPoints = this.data.length ;
 
         var vertBuffer = gl.createBuffer();
         var vertArray = new Float32Array(verts);
@@ -90,6 +95,58 @@ var data = [
 
         glLayer.redraw();
 
+        // Drawing Controls
+
+        // var drawnItems = new L.FeatureGroup();
+        // leafletMap.addLayer(drawnItems);
+        // // Set the title to show on the polygon button
+        // L.drawLocal.draw.toolbar.buttons.polygon = 'Draw a sexy polygon!';
+        // var drawControl = new L.Control.Draw({
+        //   draw: {
+        //     polyline: false,
+        //     polygon: false,
+        //     circle: false,
+        //     marker: false
+        //   }
+        // });
+
+        // leafletMap.addControl(drawControl);
+        // leafletMap.on('draw:created', function (e) {
+        //   var type = e.layerType,
+        //     layer = e.layer;
+        //     layer.on('click', function (u) {
+        //       drawnItems.removeLayer(layer);
+        //     });
+        //     console.log(drawnItems)
+        //     drawnItems.addLayer(layer);
+        // });
+
+
+        // L.drawLocal.draw.toolbar.buttons.polygon = 'Draw a sexy polygon!';
+        // var drawControl = new L.Control.Draw({
+        //   draw: {
+        //     polyline: false,
+        //     polygon: false,
+        //     circle: false,
+        //     marker: false
+        //   }
+        // });
+        // leafletMap.addControl(drawControl);
+        // leafletMap.on('draw:created', function (e) {
+        //   var type = e.layerType,
+        //     layer = e.layer;
+        //     layer.on('click', function (u) {
+        //       drawnItems.removeLayer(layer);
+        //     });
+        //     console.log(drawnItems)
+        //     drawnItems.addLayer(layer);
+        // });
+
+        // var ele = document.createElement('div');
+        // ele.className = 'dashboard leaflet-control';
+        // ele.appendChild(document.createElement('button'))
+        // document.getElementsByClassName('leaflet-top leaflet-left')[0]
+        //         .appendChild(ele);
 
         function drawingOnCanvas(canvasOverlay, params) {
             if (gl == null) return;
@@ -129,30 +186,6 @@ var data = [
             return Math.floor(Math.random() * range);
         }
 
-        /*
-        function latlonToPixels(lat, lon) {
-            initialResolution = 2 * Math.PI * 6378137 / 256, // at zoomlevel 0
-            originShift = 2 * Math.PI * 6378137 / 2;
-
-            // -- to meters
-            var mx = lon * originShift / 180;
-            var my = Math.log(Math.tan((90 + lat) * Math.PI / 360)) / (Math.PI / 180);
-            my = my * originShift / 180;
-
-
-            // -- to pixels at zoom level 0
-
-            var res = initialResolution;
-            x = (mx + originShift) / res,
-            y = (my + originShift) / res;
-
-
-            return { x: x, y: 256- y };
-        }
-        */
-        // -- converts latlon to pixels at zoom level 0 (for 256x256 tile size) , inverts y coord )
-        // -- source : http://build-failed.blogspot.cz/2013/02/displaying-webgl-data-on-google-maps.html
-
         function LatLongToPixelXY(latitude, longitude) {
             var pi_180 = Math.PI / 180.0;
             var pi_4 = Math.PI * 4;
@@ -186,10 +219,6 @@ var data = [
             matrix[7] *= scaleY;
         }
 
-  }
-
-  log() {
-    console.log('hello colin')
   }
 }
 
