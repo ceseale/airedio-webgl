@@ -239,7 +239,8 @@ module.exports = function (grunt) {
         src: [
           '<%= yeoman.dist %>/<%= yeoman.client %>/!(bower_components){,*/}*.{js,css}',
           '<%= yeoman.dist %>/<%= yeoman.client %>/assets/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
-          '<%= yeoman.dist %>/<%= yeoman.client %>/assets/fonts/*'
+          '<%= yeoman.dist %>/<%= yeoman.client %>/assets/fonts/*',
+          '<%= yeoman.dist %>/<%= yeoman.client %>/assets/scripts/*'
         ]
       }
     },
@@ -262,7 +263,8 @@ module.exports = function (grunt) {
       options: {
         assetsDirs: [
           '<%= yeoman.dist %>/<%= yeoman.client %>',
-          '<%= yeoman.dist %>/<%= yeoman.client %>/assets/images'
+          '<%= yeoman.dist %>/<%= yeoman.client %>/assets/images',
+          '<%= yeoman.dist %>/<%= yeoman.client %>/assets/scripts'
         ],
         // This is so we update image references in our ng-templates
         patterns: {
@@ -364,6 +366,7 @@ module.exports = function (grunt) {
             '*.{ico,png,txt}',
             '.htaccess',
             'bower_components/**/*',
+            'assets/scripts/*.js',
             'assets/images/{,*/}*.{webp}',
             'assets/fonts/**/*',
             'index.html'
