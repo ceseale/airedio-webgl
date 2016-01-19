@@ -1,6 +1,6 @@
-# Visualizing 322830 Accidents Using WebGl
+# Visualizing 322,830 Accidents Using WebGl
 
-A WegGL optimized version of Airedio a mapping application for analyzing geo-centric data; awarded runner up in Kandy.io Hackathon. Built with AngularJS, Node/Express, and Firebase. Airedio creates a set of bayesian analysis tools to analyze geospatial data using MCMC through an adaptive Gibbs sampler.
+A WegGL optimized version of Airedio a mapping application for analyzing geo-centric data; awarded runner up in Kandy.io Hackathon. The goal was to increase performce on for large data sets. Built with AngularJS, Node/Express. Airedio creates a set of bayesian analysis tools to analyze geospatial data using MCMC through an adaptive Gibbs sampler.
 
 [demo](https://nhtsa.herokuapp.com/)
 ![Alt Text](https://github.com/ceseale/airedio-webgl/raw/master/pic1.png)
