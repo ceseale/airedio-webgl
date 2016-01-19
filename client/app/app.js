@@ -5,7 +5,8 @@ angular.module('fatalvisApp', [
   'ngCookies',
   'ngResource',
   'ngSanitize',
-  'ui.router'
+  'ui.router',
+  'ngMaterial'
 ])
   .config(function($urlRouterProvider, $locationProvider) {
     $urlRouterProvider

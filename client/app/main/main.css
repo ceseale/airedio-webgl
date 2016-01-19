@@ -1,3 +1,4 @@
+
 #map {
     position: absolute;
     height: 100%;
@@ -5,13 +6,21 @@
     background-color: #193341;
 }
 
-.dashboard {
-  height: 20%;
-  width :20%;
-  padding: 1%;
-  background-color: white;
+.dashboard-container {
+  bottom: 5%;
+  left: 2%;
+  height: 15%;
+  width :15%;
+  padding: 2%;
+  margin: 1%;
+  background-color: grey;
+  opacity: 0.9;
+  position: absolute;
+  border-radius: 5%;
 }
-
+button {
+  box-shadow: none;
+}
 .btn.disabled, .btn[disabled] {
     cursor: default;
     background-image: none;
@@ -23,3 +32,157 @@
     color: #333;
     background-color: #E6E6E6;
 }
+
+
+.loading-container {
+  padding-top: 100px;
+  margin: 0 auto;
+}
+
+ /*Box Plots*/
+.box {
+  font: 10px sans-serif;
+  display: block;
+}
+
+.box line,
+.box rect,
+.box circle {
+  fill: #fff;
+  stroke: #000;
+  stroke-width: 1.5px;
+}
+
+.box .center {
+  stroke-dasharray: 3,3;
+}
+
+.box .outlier {
+  fill: none;
+  stroke: #ccc;
+}
+
+.leaflet-bar {
+  box-shadow: none;
+}
+
+.leaflet-draw-actions {
+  display: none !important;
+}
+
+.leaflet-draw-tooltip {
+  color: white;
+}
+
+.dashboard {
+  opacity: 1.0;
+}
+ /*Loading animation*/
+.diff_plots_div {
+  position: absolute;
+  bottom: 5%;
+  display: -webkit-inline-box;
+  left: 26%;
+}
+
+.tickLabel {
+  color: white;
+}
+
+.center {
+  text-align: center;
+}
+ .ball {
+  width: 50px;
+  height: 50px;
+  margin: 10px auto;
+  border-radius: 50px;
+  }    
+
+  .ball:nth-child(1) {
+    background: #081d58;
+    -webkit-animation: right 1s infinite ease-in-out;
+    -moz-animation: right 1s infinite ease-in-out;
+    animation: right 1s infinite ease-in-out;    
+  }
+
+  .ball:nth-child(2) {
+    background: #253494;
+    -webkit-animation: left 1.1s infinite ease-in-out;
+    -moz-animation: left 1.1s infinite ease-in-out;
+    animation: left 1.1s infinite ease-in-out;
+  }
+
+  .ball:nth-child(3) {
+    background: #225ea8;
+    -webkit-animation: right 1.05s infinite ease-in-out;
+    -moz-animation: right 1.05s infinite ease-in-out;
+    animation: right 1.05s infinite ease-in-out;
+  }
+
+  .ball:nth-child(4) {
+    background: #7fcdbb;
+    -webkit-animation: left 1.15s infinite ease-in-out;
+    -moz-animation: left 1.15s infinite ease-in-out;
+    animation: left 1.15s infinite ease-in-out;
+   }
+
+  .ball:nth-child(5) {
+    background: #41b6c4;  
+    -webkit-animation: right 1.1s infinite ease-in-out;
+    -moz-animation: right 1.1s infinite ease-in-out;
+    animation: right 1.1s infinite ease-in-out;
+  }
+
+  .ball:nth-child(6) {
+    background: #7fcdbb;  
+    -webkit-animation: left 1.05s infinite ease-in-out;
+    -moz-animation: left 1.05s infinite ease-in-out;
+    animation: left 1.05s infinite ease-in-out;
+   }
+
+  .ball:nth-child(7) {
+    background: #c7e9b4;  
+    -webkit-animation: right 1s infinite ease-in-out;
+    -moz-animation: right 1s infinite ease-in-out;
+    animation: right 1s infinite ease-in-out;
+  }
+
+
+@-webkit-keyframes right {
+  0%   { -webkit-transform: translate(-130px);   }
+  50%  { -webkit-transform: translate(130px);    }
+  100% { -webkit-transform: translate(-130px);   }
+}
+
+@-webkit-keyframes left {
+  0%   { -webkit-transform: translate(130px);    }
+  50%  { -webkit-transform: translate(-130px);   }
+  100% { -webkit-transform: translate(130px);    }
+}
+
+@-moz-keyframes right {
+  0%   { -moz-transform: translate(130px);   }
+  50%  { -moz-transform: translate(-130px);   }
+  100% { -moz-transform: translate(130px);   }
+}
+
+@-moz-keyframes left {
+  0%   { -moz-transform: translate(130px);    }
+  50%  { -moz-transform: translate(-130px);   }
+  100% { -moz-transform: translate(130px);   }
+}
+
+@keyframes right {
+  0%   { transform: translate(-130px);  }
+  50%  { transform: translate(130px);   }
+  100% { transform: translate(-130px);  }
+}
+
+@keyframes left {
+  0%   { transform: translate(130px);   }
+  50%  { transform: translate(-130px);  }
+  100% { transform: translate(130px);  }
+}
+
+

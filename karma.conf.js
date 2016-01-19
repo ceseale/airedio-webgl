@@ -20,6 +20,10 @@ module.exports = function(config) {
       // bower:js
       'client/bower_components/angular/angular.js',
       'client/bower_components/angular-cookies/angular-cookies.js',
+      'client/bower_components/angular-animate/angular-animate.js',
+      'client/bower_components/angular-aria/angular-aria.js',
+      'client/bower_components/angular-messages/angular-messages.js',
+      'client/bower_components/angular-material/angular-material.js',
       'client/bower_components/angular-resource/angular-resource.js',
       'client/bower_components/angular-sanitize/angular-sanitize.js',
       'client/bower_components/angular-ui-router/release/angular-ui-router.js',
