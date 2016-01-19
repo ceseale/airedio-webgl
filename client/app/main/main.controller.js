@@ -35,6 +35,7 @@
       console.log(stuff);
     }
     renderMap() {
+      console.log(this.data.length)
       var layerArr = [];
       var dataNames = ['y1', 'y2'];
       var boxColors = ['']
