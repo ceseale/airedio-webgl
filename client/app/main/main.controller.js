@@ -18,6 +18,7 @@
         this.data = data.data;
         return true;
       }
+      // Move to service
       this.scope.toast = (message) => {
         $mdToast.show(
         $mdToast.simple()
@@ -52,16 +53,17 @@
       var leafletMap = L.map('map', {
         zoomControl: false
       }).setView([37.784554114444994, -122.40520477294922], 5);
+      // Adding a tile layer over the map
       L.tileLayer("http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png").addTo(leafletMap);
-      // Adding webgl layer to map
       //add zoom control with your options
       L.control.zoom({
         position: 'topright'
       }).addTo(leafletMap);
+      // Adding webgl layer to map
+      // Passing in a drawing function and adding it the map
       var glLayer = L.canvasOverlay().drawing(drawingOnCanvas).addTo(leafletMap);
       var canvas = glLayer.canvas();
-      glLayer.canvas.width = canvas.clientWidth;
-      glLayer.canvas.height = canvas.clientHeight;
+      console.log(glLayer.canvas)
       // Getting canvas element
       var gl = canvas.getContext('experimental-webgl', {
         antialias: true
@@ -81,6 +83,7 @@
       gl.attachShader(program, fragmentShader);
       gl.linkProgram(program);
       gl.useProgram(program);
+      // Defines which function is used for blending pixel arithmetic.
       gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
       gl.enable(gl.BLEND);
       //  gl.disable(gl.DEPTH_TEST);
@@ -91,7 +94,7 @@
       var vertLoc = gl.getAttribLocation(program, "a_vertex");
       gl.aPointSize = gl.getAttribLocation(program, "a_pointSize");
       // Set the matrix to some that makes 1 unit 1 pixel.
-      pixelsToWebGLMatrix.set([2 / canvas.width, 0, 0, 0, 0, -2 / canvas.height, 0, 0, 0, 0, 0, 0, -1, 1, 0, 1]);
+      pixelsToWebGLMatrix.set([2 / canvas.width, 0, 0, 0, 0, -2 / canvas.height, 0, 0, 0, 0, 0, 0, -1, 1, 0, 1]); // TODO
       gl.viewport(0, 0, canvas.width, canvas.height);
       gl.uniformMatrix4fv(u_matLoc, false, pixelsToWebGLMatrix);
       // -- data
@@ -109,9 +112,9 @@
       var fsize = vertArray.BYTES_PER_ELEMENT;
       gl.bindBuffer(gl.ARRAY_BUFFER, vertBuffer);
       gl.bufferData(gl.ARRAY_BUFFER, vertArray, gl.STATIC_DRAW);
-      gl.vertexAttribPointer(vertLoc, 2, gl.FLOAT, false, fsize * 5, 0);
+      gl.vertexAttribPointer(vertLoc, 2, gl.FLOAT, false, fsize * 5, 0); // TODO
       gl.enableVertexAttribArray(vertLoc);
-      // -- offset for color buffer
+      // -- offset for color buffer // TODO
       gl.vertexAttribPointer(colorLoc, 3, gl.FLOAT, false, fsize * 5, fsize * 2);
       gl.enableVertexAttribArray(colorLoc);
       glLayer.redraw();
@@ -146,6 +149,7 @@
         latDim.filterRange([bounds.sw.lat, bounds.ne.lat]);
         lngDim.filterRange([bounds.sw.lng, bounds.ne.lng]);
         layer.data = (lngDim.top(Infinity));
+        var boxDisplay = { 'y1': 'Group 1', 'y2': 'Group 2' } 
         // add push layer id to an array 
         layer.on('click', function (u) {
           dataNames.push(layer.dataName);
@@ -157,7 +161,23 @@
 
           layer.dataName = dataNames.shift();
           layerArr.push(drawnItems.getLayerId(layer));
+          
           drawnItems.addLayer(layer);
+          d3.select(layer._container)
+            .on('mouseover', function() { 
+              var mouse = d3.mouse(this);
+              d3.select(this).append('text')
+                .style('opacity', 0)
+                .style('fill', 'white')
+                .attr('x', mouse[0] + 20)
+                .attr('y', mouse[1] + 10)
+                .text(boxDisplay[layer.dataName])
+                .transition().duration(200)
+                .style('opacity', 1);
+            })
+            .on('mouseout', function() {
+              d3.select(this).select('text').remove();
+            })
           updateRectData(layer);
         } else {
           var lastLayer = drawnItems.getLayer(layerArr.shift());
@@ -172,8 +192,13 @@
 
       function drawingOnCanvas(canvasOverlay, params) {
         if (gl == null) return;
-        gl.clear(gl.COLOR_BUFFER_BIT);
-        pixelsToWebGLMatrix.set([2 / canvas.width, 0, 0, 0, 0, -2 / canvas.height, 0, 0, 0, 0, 0, 0, -1, 1, 0, 1]);
+        gl.clear(gl.COLOR_BUFFER_BIT); // Clear all currently enabled buffers
+        pixelsToWebGLMatrix.set([2 / canvas.width, 0, 0, 0,
+                                 0, -2 / canvas.height, 0, 0,
+                                  0, 0, 0, 0
+                                  , -1, 1, 0, 1]);
+        // glViewport — set the viewport
+        // Specify the lower left corner of the viewport rectangle, in pixels. The initial value is (0,0).
         gl.viewport(0, 0, canvas.width, canvas.height);
         var pointSize = Math.max(leafletMap.getZoom() - 4.0, 1.0);
         gl.vertexAttrib1f(gl.aPointSize, pointSize);
@@ -185,6 +210,7 @@
         // -- Scale to current zoom
         var scale = Math.pow(2, leafletMap.getZoom());
         scaleMatrix(mapMatrix, scale, scale);
+
         translateMatrix(mapMatrix, -offset.x, -offset.y);
         // -- attach matrix value to 'mapMatrix' uniform in shader
         gl.uniformMatrix4fv(u_matLoc, false, mapMatrix);
@@ -228,6 +254,7 @@
         matrix[7] *= scaleY;
       }
     }
+
     startBayes(y1, y2) {
      var burn_timeout_id, sample_timeout_id, plot_timeout_id;
       var runbayes = function () {
